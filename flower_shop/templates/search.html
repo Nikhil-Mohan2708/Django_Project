@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div>
+  <p class="text-center" style="padding-top:20px;">You have searched for: <b>"{{query}}"</b></p>
+</div>
+<div class="container">
+  <div class="row mx-auto">
+    {% if flowers %}
+    {% for flower in flowers %}
+    <div class="col-9 col-sm-12 col-md-4 xol-lg-4">
+      <div class="card text-center" style="padding: 0.5px; margin:15px; width: 18rem;">
+        <div class="card">
+          <a href="{{flower.get_url}}">
+          <img src="{{ flower.image.url }}" class="card-img-top" alt="{{ flower.name }} image" style="width:100%; height:300px;"></a>
+            <div class="card-body">
+            <h5 class="card-title">{{ flower.name }}</h5>
+            <p class="card-text"><b>Price:{{ flower.price }}$</b></p>
+            {% if flower.stock == 0 %}
+              <p class="card-text text-danger">Out of stock</p>
+            {% elif not flower.availability %}
+              <span class="badge badge-danger">Unavailable</span>
+            {% else %}
+            <div class="d-flex justify-content-between">
+              <a href="{% url 'Cart:add_cart' flower.id %}" class="btn btn-primary flex-grow-1 w-100 mx-2">Add to cart</a>
+              <a href="{% url 'Cart:checkout' %}" class="btn btn-warning flex-grow-1 w-100 mx-2">Buy Now</a>
+            </div>
+              {% endif %}
+        </div>
+      </div>
+    </div>
+    </div>
+    {% endfor %}
+    {% else %}
+    <div class="row mx-auto">
+      <p class="text-center" style="padding-top:20px;">0 results found</p>
+    </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

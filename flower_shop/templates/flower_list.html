@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% block content %}
+
+
+<nav class="navbar navbar-light bg-light">
+  <div class="container-fluid">
+    <div class="dropdown">
+      <button class="btn btn-secondary dropdown-toggle" type="button" id="filterDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                <ion-icon name="filter-outline" class="me-2"></ion-icon><b>Filter</b>
+      </button>
+      <ul class="dropdown-menu" aria-labelledby="filterDropdown">
+        <li>
+          <form method="get">
+            <div class="mb-3">
+              <label for="color" class="form-label">Color:</label>
+              <select name="color" id="color" class="form-select">
+                <option value="">--select a color--</option>
+                {% for color in colors %}
+                  <option value="{{ color }}" {% if selected_color == color %}selected{% endif %}>{{ color }}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="mb-3">
+              <button type="submit" class="btn btn-primary">Apply</button>
+            </div>
+          </form>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+{% if selected_color %}
+    <p>Showing <strong>{{ selected_color }}</strong> flowers</p>
+{% endif %}
+
+  {% if category %}
+    <h1 style="margin-left:15px;">{{ category.name }} Flowers</h1>
+  {% else %}
+    <h1>All Flowers</h1>
+  {% endif %}
+  <div class="row">
+    {% for flower in flowers %}
+      <div class="col-md-3 mb-4">
+        <div class="card" style="padding: 0.5px; margin:15px; width: 18rem; height:28rem;">
+          <a href="{% url 'flowerApp:flower_details' flower.id %}">
+          <img src="{{ flower.image.url }}" class="card-img-top" alt="{{ flower.name }} image" style="width:100%; height:336px;">
+          </a>
+            <div class="card-body text-center">
+            <h5 class="card-title" style="font-family: 'Courier New', monospace;letter-spacing: 2px;">{{ flower.name }}</h5>
+            <p class="card-text"><b>Price:{{ flower.price }}$</b></p>
+            {% if flower.stock == 0 %}
+              <p class="card-text text-danger">Out of stock</p>
+            {% elif not flower.availability %}
+              <span class="badge badge-danger">Unavailable</span>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    {% empty %}
+      <div class="col">
+        <p>No flowers found.</p>
+      </div>
+    {% endfor %}
+  </div>
+{% endblock %}

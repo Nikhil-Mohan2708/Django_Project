@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<style>
+    body {
+        background-image: url("{% static 'img/background.jpg' %}");
+        background-repeat: no-repeat;
+        background-size: 2000px;
+    }
+    .navbar {
+    background-color: gray; /* Set the background color of the navbar */
+    padding: 1px 5px; /* Add some padding to the navbar */
+    }
+</style>
+
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg" style="height:60px;">
+  <a class="navbar-brand" href="#"><img src="{% static 'img/logo.png' %}" alt="logo" style="width:60px;height:60px;"></a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNavDropdown">
+    <p style="color:white;">BLOSSOM<span class="sr-only"></span></p>
+    <ul class="navbar-nav ml-auto" style="margin-right: 100px;">
+      <li class="nav-item">
+        <button class="btn btn-success mr-2" type="button" onclick="location.href='{% url 'flowerApp:login' %}'">Login</button>
+      </li>
+      <li class="nav-item">
+        <button class="btn btn-danger" type="button" onclick="location.href='{% url 'flowerApp:register' %}'">Register</button>
+      </li>
+      <div class="dropdown ml-2">
+      <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Branches
+      </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+          <a class="dropdown-item" href="https://en.wikipedia.org/wiki/Thiruvananthapuram">Thiruvananthapuram</a>
+          <a class="dropdown-item" href="https://en.wikipedia.org/wiki/Kollam">Kollam</a>
+          <a class="dropdown-item" href="https://en.wikipedia.org/wiki/Pathanamthitta">Pathanamthitta</a>
+          <a class="dropdown-item" href="https://en.wikipedia.org/wiki/Alappuzha">Alappuzha</a>
+          <a class="dropdown-item" href="https://en.wikipedia.org/wiki/Kottayam">Kottayam</a>
+          <a class="dropdown-item" href="https://en.wikipedia.org/wiki/Idukki">Idukki</a>
+          <a class="dropdown-item" href="https://en.wikipedia.org/wiki/Ernakulam">Ernakulam</a>
+          <a class="dropdown-item" href="https://en.wikipedia.org/wiki/Thrissur">Thrissur</a>
+          <a class="dropdown-item" href="https://en.wikipedia.org/wiki/Palakkad">Palakkad</a>
+          <a class="dropdown-item" href="https://en.wikipedia.org/wiki/Malappuram">Malappuaram</a>
+          <a class="dropdown-item" href="https://en.wikipedia.org/wiki/Kozhikode">Kozhikode</a>
+          <a class="dropdown-item" href="https://en.wikipedia.org/wiki/Wayand">Wayanad</a>
+          <a class="dropdown-item" href="https://en.wikipedia.org/wiki/Kannur">kannur</a>
+          <a class="dropdown-item" href="https://en.wikipedia.org/wiki/Kasargod">Kasargod</a>
+        </div>
+      </div>
+    </ul>
+  </div>
+</nav>
+
+<footer style="position: fixed; bottom: 0; width: 100%; color:">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4">
+        <h3>Contact Us</h3>
+        <ul>
+          <li>1234 Blossom Street</li>
+          <li>Springfield, USA</li>
+          <li>Phone: (123) 456-7890</li>
+          <li>Email: info@blossomflowerapp.com</li>
+        </ul>
+      </div>
+      <div class="col-md-4">
+        <h3>About Us</h3>
+        <p>Blossom Flower is a mobile app that makes it easy to find and order beautiful, fresh flowers for any occasion.</p>
+      </div>
+      <div class="col-md-4">
+        <h3>Follow Us</h3>
+        <ul class="social-media">
+          <li><a href="#"><i class="fa fa-facebook" style="color:blue"> <b>facebook.com/blossom.flowers.27/</b></i></a></li>
+          <li><a href="#"><i class="fa fa-twitter"></i> <b>@BlossomFlowerShop</b></a></li>
+          <li><a href="#"><i class="fa fa-instagram" style="color:red"> <b style="color:black;">@flowerblossomshop</b></i></a></li>
+          <li><a href="#"><i class="fa fa-pinterest" style="color:red"> <b style="color:black;">@flowerblossomshop</b></i></a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</footer>
+{% endblock %}

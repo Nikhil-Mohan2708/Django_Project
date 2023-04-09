@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8 col-md-10">
+      <div class="card">
+        <div class="card-body">
+          <h1>{{ flower.name }}</h1>
+          <p><b>Description:</b> {{ flower.description }}</p>
+          <p><b>Price: ${{ flower.price }}</b></p>
+          <div class="mb-3">
+            <img src="{{ flower.image.url }}" alt="{{ flower.name }} image" style="width:410px;height:410px;margin-bottom:10px;">
+          </div>
+
+          {% if flower.stock == 0 %}
+              <p class="card-text text-danger">Out of stock</p>
+          {% elif not flower.availability %}
+          <span class="badge badge-danger">Unavailable</span>
+          {% else %}
+          <div class="d-flex justify-content-between">
+              <a href="{% url 'Cart:add_cart' flower.id %}" class="btn btn-primary flex-grow-1 w-100 mx-2">Add to cart</a>
+              <a href="{% url 'Cart:checkout' %}" class="btn btn-warning flex-grow-1 w-100 mx-2">Buy Now</a>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="contain-fluid" style="margin-top:210px;margin-left:540px;">
+    <h2 style="color:black;margin-left:24px;">Congratulations</h2>
+    <h5 style="color:red;margin-left:10px;"> <b>Your Order Has Been Placed</b></h5>
+    <button class="btn btn-primary" style="margin-left:100px;"><a href="{% url 'flowerApp:logout' %}"><b style="color:white;">Logout</b></a></button>
+      <br><br>
+    <p style="margin-left:-30px;">Keep Shop With Us <a href="{% url 'flowerApp:categories' %}">Click here</a> Go back to Shopping</p>
+  </div>
+
+{% endblock %}

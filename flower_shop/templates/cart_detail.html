@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1 class="text-center">Shopping Cart</h1>
+  {% if cart_items %}
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Product Image</th>
+          <th scope="col">Product Name</th>
+          <th scope="col">Price</th>
+          <th scope="col">Quantity</th>
+          <th scope="col">Total</th>
+          <th scope="col">Delete</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in cart_items %}
+          <tr>
+            <td><img src="{{ item.flower.image.url }}" alt="{{ item.flower.name }}" width="100px" height="100px"></td>
+            <td>{{ item.flower.name }}</td>
+            <td>${{ item.flower.price }}</td>
+            <td>
+              <a href="{% url 'Cart:remove_from_cart' item.flower.id %}">
+                <i class="fa fa-minus-circle" aria-hidden="true"></i>
+              </a>
+              {{ item.quantity }}
+              <a href="{% url 'Cart:add_cart' item.flower.id %}">
+                <i class="fa fa-plus-circle" aria-hidden="true"></i>
+              </a>
+            </td>
+            <td>${{ item.flower.price }} * {{ item.quantity }}</td>
+            <td>
+              <a href="{% url 'Cart:delete_cart' item.flower.id %}">
+                <i class="fa fa-trash" aria-hidden="true"></i>
+              </a>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="4">Total:</td>
+          <td>${{ total }}</td>
+          <td>
+            <a href="{% url 'Cart:checkout' %}">
+              <button class="btn btn-primary">Checkout</button>
+            </a>
+          </td>
+        </tr>
+      </tfoot>
+    </table>
+  {% else %}
+    <p class="text-center">Your cart is empty. <a href="{% url 'flowerApp:categories' %}">Go shopping!</a></p>
+  {% endif %}
+{% endblock %}

@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Checkout</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="card mx-auto" style="max-width: 500px;">
+            <div class="card-header">
+                <h1 class="text-center">Checkout</h1>
+            </div>
+            <div class="card-body">
+                <form action="" method="POST">
+                    {% csrf_token %}
+                    <h2>Billing Details</h2>
+                    <div class="form-group">
+                        <label for="name">Name:</label>
+                        <input type="text" class="form-control" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="email" class="form-control" id="email" name="email" required>
+                    </div>
+                                        <div class="form-group">
+                        <label for="dob">Date of Birth:</label>
+                        <input type="date" class="form-control" id="dob" name="dob" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="age">Age:</label>
+                        <input type="number" class="form-control" id="age" name="age" min="1" max="150" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="gender">Gender:</label>
+                        <select class="form-control" id="gender" name="gender" required>
+                            <option value="">Select Gender</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone Number:</label>
+                        <input type="tel" class="form-control" id="phone" name="phone" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="address">Address:</label>
+                        <textarea class="form-control" id="address" name="address" rows="4" cols="50" required></textarea>
+                    </div>
+  <div class="form-group">
+    <form>
+      <label for="district-select">District:</label>
+      <select id="district-select">
+        <option value="">Select a district</option>
+        {% for district in districts %}
+          <option value="{{ district.id }}">{{ district.name }}</option>
+        {% endfor %}
+      </select>
+
+      <br>
+      <label for="city-select">City:</label>
+      <select id="city-select" disabled>
+        <option value="">Select a city</option>
+      </select>
+    </form>
+  </div>
+
+  <script>
+    $(document).ready(function() {
+      $('#district-select').change(function() {
+        var districtId = $(this).val();
+        if (districtId) {
+          $.ajax({
+            url: '{% url "Cart:get_cities" %}',
+            data: {
+              'district_id': districtId
+            },
+            dataType: 'json',
+            success: function(response) {
+              $('#city-select').empty().append('<option value="">Select a city</option>');
+              $.each(response.cities, function(i, city) {
+                $('#city-select').append($('<option>', {
+                  value: city.id,
+                  text: city.name
+                }));
+              });
+              $('#city-select').prop('disabled', false);
+            },
+            error: function(response) {
+              $('#city-select').empty().append('<option value="">Select a city</option>');
+              $('#city-select').prop('disabled', true);
+            }
+          });
+        } else {
+          $('#city-select').empty().append('<option value="">Select a city</option>');
+          $('#city-select').prop('disabled', true);
+        }
+      });
+
+      $('#city-select').change(function() {
+        var districtName = $('#district-select option:selected').text();
+        var cityName = $('#city-select option:selected').text();
+      });
+    });
+  </script>
+        <h2>Payment</h2>
+<div class="form-group">
+    <label for="payment_options">Payment Options:</label><br>
+    <input type="checkbox" id="debit_card" name="payment_option" value="debit_card">
+    <label for="debit_card">Master Card <i class="fab fa-cc-mastercard"></i></label><br>
+    <input type="checkbox" id="credit_card" name="payment_option" value="credit_card">
+    <label for="credit_card">Credit Card <i class="fa fa-credit-card" aria-hidden="true"></i></label><br>
+    <input type="checkbox" id="rupay" name="payment_option" value="rupay">
+    <label for="rupay">PayPal <i class='fab fa-cc-paypal'></i></label><br>
+    <input type="checkbox" id="cash_on_delivery" name="payment_option" value="cash_on_delivery">
+    <label for="cash_on_delivery">Cash on Delivery <i style="font-size:18px" class="fa">&#xf0d6;</i></label><br>
+</div>
+<script>
+                      const checkboxes = document.querySelectorAll('input[type=checkbox][name=payment_option]');
+                      checkboxes.forEach((checkbox) => {
+                        checkbox.addEventListener('change', () => {
+                          checkboxes.forEach((cb) => {
+                            if (cb !== checkbox) {
+                              cb.checked = false;
+                            }
+                          });
+                        });
+                      });
+                    </script>
+
+<div id="card_details">
+    <div class="form-group">
+        <label for="cardholder">Cardholder's Name:</label>
+        <input type="text" class="form-control" id="cardholder" name="cardholder" required>
+    </div>
+    <div class="form-group">
+        <label for="card_number">Card Number:</label>
+        <input type="text" class="form-control" id="card_number" name="card_number" required>
+    </div>
+    <div class="form-group">
+        <label for="expiry_date">Expiry Date:</label>
+        <input type="date" class="form-control" id="expiry_date" name="expiry_date" required>
+    </div>
+    <div class="form-group">
+        <label for="cvv">CVV:</label>
+        <input type="text" class="form-control" id="cvv" name="cvv" required>
+    </div>
+</div>
+
+<button type="button" class="btn btn-warning btn-block" id="pay_now_button" style="display:none" onclick="window.location.href='{% url 'Cart:success' %}'">Pay Now</button>
+<button type="button" class="btn btn-danger btn-block" id="confirm_order_button" style="display:none" onclick="window.location.href='{% url 'Cart:order_placed' %}'">Confirm Order</button>
+
+<script>
+  $(document).ready(function() {
+    $('#card_details').hide();
+    $('#pay_now_button').hide();
+    $('#confirm_order_button').hide();
+
+    $('input[name=payment_option]').click(function() {
+      if ($('#cash_on_delivery').is(':checked')) {
+        $('#card_details').hide();
+        $('#pay_now_button').hide();
+        $('#confirm_order_button').show();
+      } else {
+        $('#card_details').show();
+        $('#pay_now_button').show();
+        $('#confirm_order_button').hide();
+      }
+    });
+  });
+</script>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
